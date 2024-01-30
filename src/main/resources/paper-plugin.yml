@@ -1,0 +1,23 @@
+name: First
+version: '${version}'
+main: roei.plugins.first.First
+api-version: '1.20'
+authors:
+  - roei
+permissions:
+  Moderation.owner:
+    description: "Owner of the server"
+    default: op
+  Moderation.admin:
+    description: "Admins of all the servers"
+    default: op
+commands:
+  print:
+    description: "Prints the inputted text to the chat"
+    usage: "/print <text>"
+  Moderation.admin.print:
+    description: "Messages only server admin can see"
+    usage: "/Mprint <text>"
+    aliases: [pr,pri,line]
+    permission: Moderation.admin
+    permission-message: "You do not have to right perms to use this command"
