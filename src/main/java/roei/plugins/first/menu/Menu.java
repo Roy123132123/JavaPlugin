@@ -14,8 +14,8 @@ public class Menu {
     private static final Map<UUID,Menu> openMenus = new HashMap<>();
     private static final Map<String, Set<UUID>> viewers = new HashMap<>();
     private static final Map<Integer,MenuClick> menuClickActions = new HashMap<>();
-    private MenuClick generalClickAction;
-    private MenuClick genInvClickAction;
+    private static MenuClick generalClickAction;
+    private static MenuClick genInvClickAction;
 
     private MenuDrag dragAction;
     private MenuOpen openAction;
@@ -43,13 +43,15 @@ public class Menu {
 
     protected void setCloseAction(MenuClose closeAction) {this.closeAction = closeAction;}
 
-    public MenuClick getGeneralClickAction() {return generalClickAction;}
+    public static MenuClick getGeneralClickAction() {return generalClickAction;}
 
-    protected void setGeneralClickAction(MenuClick generalClickAction) {this.generalClickAction = generalClickAction;}
+    protected void setGeneralClickAction(MenuClick generalClickAction) {
+        Menu.generalClickAction = generalClickAction;}
 
-    public MenuClick getGenInvClickAction() {return genInvClickAction;}
+    public static MenuClick getGenInvClickAction() {return genInvClickAction;}
 
-    protected void setGenInvClickAction(MenuClick genInvClickAction) {this.genInvClickAction = genInvClickAction;}
+    protected void setGenInvClickAction(MenuClick genInvClickAction) {
+        Menu.genInvClickAction = genInvClickAction;}
 
     public MenuDrag getDragAction() {return dragAction;}
 
