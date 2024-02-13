@@ -76,6 +76,24 @@ public class Menu {
         list.add(p.getUniqueId());
         viewers.put(viewerId,list);
     }
+    public void removeViewer(Player p){
+        if(viewerId == null)return;
+        Set<UUID>list = viewers.getOrDefault(viewerId,null);
+        if(list == null)return;
+        list.remove(p.getUniqueId());
+        if(list.isEmpty()) viewers.remove(viewerId);
+        viewers.put(viewerId,list);
+    }
+    public Set<Player>getViewers(){
+        if(viewerId == null)return new HashSet<>();
+        Set<Player>viewerList = new HashSet<>();
+        for(UUID uuid:viewers.getOrDefault(viewerId,new HashSet<>())){
+            Player p = Bukkit.getPlayer(uuid);
+            if(p == null) continue;
+            viewerList.add(p);
+        }
+    return viewerList;
+    }
     public void SetItem(int Index, ItemStack item){
         inventory.setItem(Index,item);
     }
