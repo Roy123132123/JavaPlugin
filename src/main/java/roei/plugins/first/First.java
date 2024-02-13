@@ -1,5 +1,6 @@
 package roei.plugins.first;
 
+import roei.plugins.first.events.GeneralEvents;
 import org.bukkit.plugin.java.JavaPlugin;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
