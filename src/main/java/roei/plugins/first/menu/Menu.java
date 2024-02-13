@@ -8,7 +8,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import java.awt.*;
 import java.util.*;
-
 import static org.bukkit.Bukkit.*;
 
 public class Menu {
@@ -26,6 +25,9 @@ public class Menu {
     private final Inventory inventory;
     private final String viewerId;
 
+    public static Menu getMenu(Player p){
+        return openMenus.getOrDefault(p.getUniqueId(),null);
+    }
     public Menu(int size, String name) {
         uuid = UUID.randomUUID();
         inventory = Bukkit.createInventory(this::getInventory,size,name);
@@ -64,10 +66,26 @@ public class Menu {
     public void open(Player p){
         p.openInventory(inventory);
         openMenus.put(p.getUniqueId(),this);
-        if(viewerId != null){}
+        if(viewerId != null){addViewer(p);}
         if(openAction != null){
             openAction.Open(p);
         }
+    }
+    public void remove (){
+        openMenus.entrySet().removeIf(entry->{
+            if(entry.getValue().getUuid().equals(uuid)){
+                Player p = Bukkit.getPlayer(entry.getKey());
+                if(p != null){
+                    if(viewerId != null)removeViewer(p);
+                    if(closeAction != null)p.closeInventory();
+                }
+                return true;
+            }
+            return false;
+        });
+    }
+    public UUID getUuid(){
+        return uuid;
     }
     //adds a viewer to the hash map if there is no user in the hash map yet
     public void addViewer(Player p){
@@ -76,7 +94,7 @@ public class Menu {
         list.add(p.getUniqueId());
         viewers.put(viewerId,list);
     }
-    public void removeViewer(Player p){
+    private void removeViewer(Player p){
         if(viewerId == null)return;
         Set<UUID>list = viewers.getOrDefault(viewerId,null);
         if(list == null)return;
@@ -84,7 +102,7 @@ public class Menu {
         if(list.isEmpty()) viewers.remove(viewerId);
         viewers.put(viewerId,list);
     }
-    public Set<Player>getViewers(){
+    private Set<Player>getViewers(){
         if(viewerId == null)return new HashSet<>();
         Set<Player>viewerList = new HashSet<>();
         for(UUID uuid:viewers.getOrDefault(viewerId,new HashSet<>())){
